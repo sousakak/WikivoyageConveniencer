@@ -1,0 +1,40 @@
+@use "sass:map";
+
+$colors: (
+    "bg": #f7fafc,
+    "surface": #ffffff,
+    "text": #1a202c,
+    "border": #e2e8f0,
+
+    "primary": #006699,
+    "primary-hover": #005580,
+
+    "success": #339966,
+    "danger": #990000
+);
+
+$scale: (
+    "space": (
+        "1": 4px,
+        "2": 8px,
+        "3": 12px,
+        "4": 16px,
+        "6": 24px
+    ),
+    "radius": (
+        "sm": 2px,
+        "md": 4px
+    )
+);
+
+:root {
+    @each $key, $value in $colors {
+        --color-#{$key}: #{$value};
+    }
+
+    @each $group, $map in $scale {
+        @each $key, $value in $map {
+            --#{$group}-#{$key}: #{$value};
+        }
+    }
+}
