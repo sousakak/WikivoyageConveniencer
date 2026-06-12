@@ -4,11 +4,18 @@ import { computed } from 'vue'
 type ButtonType = 'primary' | 'secondary' | 'danger'
 type ButtonSize = 'small' | 'medium' | 'large'
 
-const props = defineProps<{
+const {
+    type,
+    size,
+    disabled,
+    ariaLabel,
+    rounded = true
+} = defineProps<{
     type?: ButtonType
     size?: ButtonSize
     disabled?: boolean
     ariaLabel?: string
+    rounded?: boolean
 }>()
 
 const emit = defineEmits<{
@@ -16,15 +23,16 @@ const emit = defineEmits<{
 }>()
 
 const onClick = (e: MouseEvent) => {
-    if (props.disabled) return
+    if (disabled) return
     emit('click', e)
 }
 
 const classes = computed(() => [
     'app-button',
-    `app-button-${props.type ?? 'primary'}`,
-    `app-button-${props.size ?? 'medium'}`,
-    props.disabled && 'app-button-disabled'
+    `app-button-${type ?? 'primary'}`,
+    `app-button-${size ?? 'medium'}`,
+    rounded ? 'app-button-rounded' : '',
+    disabled && 'app-button-disabled'
 ])
 </script>
 
@@ -46,40 +54,21 @@ const classes = computed(() => [
 @use '../assets/styles/variables.scss' as var;
 
 .app-button {
-    background: none;
+    background: map.get(var.$colors, "surface");
     border: 2px solid;
     font: inherit;
     line-height: 1;
     padding: 0.5em 1em;
     transition: 0.25s;
+    cursor: pointer;
 
     @mixin typeSettings($mainColor, $reversed: false) {
         @if $reversed {
-            border-color: color.adjust($mainColor, $hue: -5deg);
-            box-shadow: inset 0 0 0 2em color.adjust($mainColor, $hue: -5deg);
-            color: map.get(var.$colors, "surface");
-
-            &:hover {
-                border-color: $mainColor;
-                box-shadow: none;
-                background: none;
-                color: $mainColor;
-            }
-            @media (any-hover: none) {
-                &:focus {
-                    border-color: $mainColor;
-                    box-shadow: none;
-                    background: none;
-                    color: $mainColor;
-                }
-            }
-        }
-        @else {
             color: $mainColor;
 
             &:hover {
-                border-color: color.adjust($mainColor, $hue: -5deg);
-                box-shadow: inset 0 0 0 2em color.adjust($mainColor, $hue: -5deg);
+                border-color: $mainColor;
+                box-shadow: inset 0 0 0 2em $mainColor;
                 color: map.get(var.$colors, "surface");
             }
             @media (any-hover: none) {
@@ -87,6 +76,26 @@ const classes = computed(() => [
                     border-color: color.adjust($mainColor, $hue: -5deg);
                     box-shadow: inset 0 0 0 2em color.adjust($mainColor, $hue: -5deg);
                     color: map.get(var.$colors, "surface");
+                }
+            }
+        }
+        @else {
+            border-color: $mainColor;
+            box-shadow: inset 0 0 0 2em $mainColor;
+            color: map.get(var.$colors, "surface");
+
+            &:hover {
+                border-color: $mainColor;
+                box-shadow: none;
+                background: map.get(var.$colors, "surface");
+                color: $mainColor;
+            }
+            @media (any-hover: none) {
+                &:focus {
+                    border-color: $mainColor;
+                    box-shadow: none;
+                    background: map.get(var.$colors, "surface");
+                    color: $mainColor;
                 }
             }
         }

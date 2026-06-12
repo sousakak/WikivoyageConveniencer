@@ -1,25 +1,29 @@
 <template>
     <header class="header">
-        <nav class="menu">
-            <AppDropdown
-                :items="[
-                    { label: '開く', value: 'open' },
-                    { label: '保存', value: 'save' },
-                    { label: '終了', value: 'exit' }
-                ]"
-                @select="console.log"
-            >
-                <AppButton
-                    type="secondary"
-                    size="medium"
-                >
-                    ファイル
-                </AppButton>
-            </AppDropdown>
-        </nav>
+        <AppMenu
+            :items="[
+                {
+                    title: '全般',
+                    items: [
+                        { label: 'ツール情報', value: 'about' },
+                        { label: '更新', value: 'update' }
+                    ]
+                },
+                {
+                    title: '統計',
+                    items: [
+                        { label: '地理的階層', value: 'geoHier' },
+                        { label: '投稿分析', value: 'anlysContrib' }
+                    ]
+                },
+                {
+                    title: '編集',
+                    items: [
+                        { label: '翻訳', value: 'translation' },
+                        { label: 'VCardとListingの置換', value: 'convertListing' }
+                    ]
+                }
+            ]"
+        />
     </header>
 </template>
-
-<style lang="scss">
-
-</style>
