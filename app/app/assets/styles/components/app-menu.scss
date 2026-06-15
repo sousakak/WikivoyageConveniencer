@@ -1,0 +1,12 @@
+@use "sass:map";
+@use '../variables.scss' as var;
+
+$height: 45px;
+
+.app-menu-bar {
+    width: 100%;
+    background: map.get(var.$colors, "primary");
+    display: flex;
+    align-items: stretch;
+    height: $height;
+}

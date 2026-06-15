@@ -14,15 +14,17 @@
 
     type DropdownSize = 'small' | 'medium' | 'large'
 
-    const {
-        items = [],
-        size,
-        rounded = true
-    } = defineProps<{
-        items: MenuGroup[]
-        size?: DropdownSize
-        rounded?: boolean
-    }>()
+    const props = withDefaults(
+        defineProps<{
+            items: MenuGroup[]
+            size?: DropdownSize
+            rounded?: boolean
+        }>(),
+        {
+            items: () => [],
+            rounded: true
+        }
+    )
 
     const emit = defineEmits<{
         (e: 'select', payload: { group: string; value: any }): void
@@ -39,69 +41,38 @@
     const setOpen = (index: number, open: boolean) => {
         if (open) {
             openedIndex.value = index
-            emit('open', items[index]!.title)
+            emit('open', props.items[index]!.title)
         } else {
             if (openedIndex.value === index) {
                 openedIndex.value = null
             }
-            emit('close', items[index]!.title)
+            emit('close', props.items[index]!.title)
         }
     }
 </script>
 
 <template>
     <nav class="app-menu">
-        <AppDropdown
+        <app-dropdown
             v-for="(group, index) in items"
             :key="group.title"
             :items="group.items"
-            :size="size"
+            :size="props.size"
             :open="openedIndex === index"
             @update:open="value => setOpen(index, value)"
             @select="value => onSelect(group.title, value)"
         >
-            <AppButton
-                :rounded="rounded"
+            <app-button
+                :rounded="props.rounded"
                 type="primary"
-                :size="size"
+                :size="props.size"
             >
                 {{ group.title }}
-            </AppButton>
-        </AppDropdown>
+            </app-button>
+        </app-dropdown>
     </nav>
 </template>
 
 <style lang="scss">
-    @use "sass:map";
-    @use "../assets/styles/variables.scss" as var;
-
-    .app-menu {
-        display: flex;
-        align-items: stretch;
-
-        .app-button {
-            border-radius: 0;
-        }
-
-        &>.app-dropdown {
-            &:first-child .app-button-small.app-button-rounded {
-                border-top-left-radius: map.get(var.$scale, "radius", "sm");
-                border-bottom-left-radius: map.get(var.$scale, "radius", "sm");
-            }
-            &:first-child .app-button-medium.app-button-rounded,
-            &:first-child .app-button-large.app-button-rounded {
-                border-top-left-radius: map.get(var.$scale, "radius", "md");
-                border-bottom-left-radius: map.get(var.$scale, "radius", "md");
-            }
-            &:last-child .app-button-small.app-button-rounded {
-                border-top-right-radius: map.get(var.$scale, "radius", "sm");
-                border-bottom-right-radius: map.get(var.$scale, "radius", "sm");
-            }
-            &:last-child .app-button-medium.app-button-rounded,
-            &:last-child .app-button-large.app-button-rounded {
-                border-top-right-radius: map.get(var.$scale, "radius", "md");
-                border-bottom-right-radius: map.get(var.$scale, "radius", "md");
-            }
-        }
-    }
+@use "~/assets/styles/components/app-dropdown-group";
 </style>

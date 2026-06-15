@@ -39,7 +39,7 @@
 
 <template>
     <div class="app-menu-bar">
-        <AppDropdownGroup
+        <app-dropdown-group
             :items="items"
             :size="size"
             :rounded="false"
@@ -51,16 +51,5 @@
 </template>
 
 <style lang="scss">
-    @use "sass:map";
-    @use '../assets/styles/variables.scss' as var;
-
-    $height: 45px;
-
-    .app-menu-bar {
-        width: 100%;
-        background: map.get(var.$colors, "primary");
-        display: flex;
-        align-items: stretch;
-        height: $height;
-    }
+@use "~/assets/styles/components/app-menu";
 </style>

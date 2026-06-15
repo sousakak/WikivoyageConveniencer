@@ -1,6 +1,6 @@
 <template>
     <header class="header">
-        <AppMenu
+        <app-menu
             :items="[
                 {
                     title: '全般',
@@ -12,6 +12,7 @@
                 {
                     title: '統計',
                     items: [
+                        { label: 'グラフ化', value: 'graph' },
                         { label: '地理的階層', value: 'geoHier' },
                         { label: '投稿分析', value: 'anlysContrib' }
                     ]

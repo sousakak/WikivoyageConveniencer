@@ -1,0 +1,32 @@
+@use "sass:map";
+@use "../variables.scss" as var;
+
+.app-menu {
+    display: flex;
+    align-items: stretch;
+
+    .app-button {
+        border-radius: 0;
+    }
+
+    &>.app-dropdown {
+        &:first-child .app-button-small.app-button-rounded {
+            border-top-left-radius: map.get(var.$scale, "radius", "sm");
+            border-bottom-left-radius: map.get(var.$scale, "radius", "sm");
+        }
+        &:first-child .app-button-medium.app-button-rounded,
+        &:first-child .app-button-large.app-button-rounded {
+            border-top-left-radius: map.get(var.$scale, "radius", "md");
+            border-bottom-left-radius: map.get(var.$scale, "radius", "md");
+        }
+        &:last-child .app-button-small.app-button-rounded {
+            border-top-right-radius: map.get(var.$scale, "radius", "sm");
+            border-bottom-right-radius: map.get(var.$scale, "radius", "sm");
+        }
+        &:last-child .app-button-medium.app-button-rounded,
+        &:last-child .app-button-large.app-button-rounded {
+            border-top-right-radius: map.get(var.$scale, "radius", "md");
+            border-bottom-right-radius: map.get(var.$scale, "radius", "md");
+        }
+    }
+}
