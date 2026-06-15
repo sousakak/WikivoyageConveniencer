@@ -1,8 +1,6 @@
-use crate::wiki::users::UserData;
+use crate::wiki::users;
 
 #[tauri::command]
-pub async fn get_users() -> Result<Vec<UserData>, String> {
-    println!("get_users called");
-
-    crate::wiki::users::get_users().await
+pub async fn get_users(aufrom: Option<String>) -> Result<users::UserPage, String> {
+    users::get_users(aufrom).await
 }
