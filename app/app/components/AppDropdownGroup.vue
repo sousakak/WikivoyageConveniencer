@@ -1,4 +1,6 @@
 <script setup lang="ts">
+    import { ref } from 'vue'
+
     type DropdownItem = {
         label: string
         value: any
@@ -13,7 +15,7 @@
     type DropdownSize = 'small' | 'medium' | 'large'
 
     const {
-        items,
+        items = [],
         size,
         rounded = true
     } = defineProps<{
@@ -28,27 +30,35 @@
         (e: 'close', group: string): void
     }>()
 
+    const openedIndex = ref<number | null>(null)
+
     const onSelect = (group: string, value: any) => {
         emit('select', { group, value })
     }
 
-    const onOpen = (group: string) => {
-        emit('open', group)
-    }
-
-    const onClose = (group: string) => {
-        emit('close', group)
+    const setOpen = (index: number, open: boolean) => {
+        if (open) {
+            openedIndex.value = index
+            emit('open', items[index]!.title)
+        } else {
+            if (openedIndex.value === index) {
+                openedIndex.value = null
+            }
+            emit('close', items[index]!.title)
+        }
     }
 </script>
 
 <template>
     <nav class="app-menu">
         <AppDropdown
-            v-for="group in items"
+            v-for="(group, index) in items"
             :key="group.title"
             :items="group.items"
             :size="size"
-            @select="value => onSelect(group.title, value)" @open="onOpen(group.title)" @close="onClose(group.title)"
+            :open="openedIndex === index"
+            @update:open="value => setOpen(index, value)"
+            @select="value => onSelect(group.title, value)"
         >
             <AppButton
                 :rounded="rounded"
@@ -74,21 +84,21 @@
         }
 
         &>.app-dropdown {
-            &:first-child .app-button-small {
+            &:first-child .app-button-small.app-button-rounded {
                 border-top-left-radius: map.get(var.$scale, "radius", "sm");
                 border-bottom-left-radius: map.get(var.$scale, "radius", "sm");
             }
-            &:first-child .app-button-medium,
-            &:first-child .app-button-large {
+            &:first-child .app-button-medium.app-button-rounded,
+            &:first-child .app-button-large.app-button-rounded {
                 border-top-left-radius: map.get(var.$scale, "radius", "md");
                 border-bottom-left-radius: map.get(var.$scale, "radius", "md");
             }
-            &:last-child .app-button-small {
+            &:last-child .app-button-small.app-button-rounded {
                 border-top-right-radius: map.get(var.$scale, "radius", "sm");
                 border-bottom-right-radius: map.get(var.$scale, "radius", "sm");
             }
-            &:last-child .app-button-medium,
-            &:last-child .app-button-large {
+            &:last-child .app-button-medium.app-button-rounded,
+            &:last-child .app-button-large.app-button-rounded {
                 border-top-right-radius: map.get(var.$scale, "radius", "md");
                 border-bottom-right-radius: map.get(var.$scale, "radius", "md");
             }

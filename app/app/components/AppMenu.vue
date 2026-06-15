@@ -62,9 +62,5 @@
         display: flex;
         align-items: stretch;
         height: $height;
-
-        .app-button {
-            border-radius: 0 !important;
-        }
     }
 </style>

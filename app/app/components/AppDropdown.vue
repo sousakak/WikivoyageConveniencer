@@ -18,15 +18,20 @@
         items: DropdownItem[]
         size?: DropdownSize
         disabled?: boolean
+        open?: boolean
     }>()
 
     const emit = defineEmits<{
         (e: 'select', value: any): void
         (e: 'open'): void
         (e: 'close'): void
+        (e: 'update:open', value: boolean): void
     }>()
 
-    const isOpen = ref(false)
+    const isOpen = computed({
+        get: () => props.open ?? false,
+        set: (value: boolean) => emit('update:open', value)
+    })
     const root = ref<HTMLElement>()
 
     const classes = computed(() => [

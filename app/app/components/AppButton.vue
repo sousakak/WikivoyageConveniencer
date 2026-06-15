@@ -118,15 +118,21 @@ const classes = computed(() => [
 
     &-small {
         padding: 0.1em 0.2em;
-        border-radius: map.get(var.$scale, "radius", "sm");
+        &.app-button-rounded {
+            border-radius: map.get(var.$scale, "radius", "sm");
+        }
     }
     &-medium {
         padding: 0.5em 1em;
-        border-radius: map.get(var.$scale, "radius", "md");
+        &.app-button-rounded {
+            border-radius: map.get(var.$scale, "radius", "md");
+        }
     }
     &-large {
         padding: 1em 2em;
-        border-radius: map.get(var.$scale, "radius", "md");
+        &.app-button-rounded {
+            border-radius: map.get(var.$scale, "radius", "md");
+        }
     }
 
     &:has(+ &) {
