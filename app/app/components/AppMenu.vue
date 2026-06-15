@@ -23,7 +23,6 @@
         (e: 'close', group: string): void
     }>()
 
-    // そのまま上に流す（薄いラッパー）
     const onSelect = (payload: { group: string; value: any }) => {
         emit('select', payload)
     }

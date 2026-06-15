@@ -1,3 +1,16 @@
+<script setup lang="ts">
+    const router = useRouter()
+
+    const onMenuSelect = (
+        payload: {
+            group: string
+            value: string
+        }
+    ) => {
+        router.push(payload.value)
+    }
+</script>
+
 <template>
     <header class="header">
         <app-menu
@@ -5,6 +18,7 @@
                 {
                     title: '全般',
                     items: [
+                        { label: 'トップ', value: '/' },
                         { label: 'ツール情報', value: 'about' },
                         { label: '更新', value: 'update' }
                     ]
@@ -14,7 +28,7 @@
                     items: [
                         { label: 'グラフ化', value: 'graph' },
                         { label: '地理的階層', value: 'geoHier' },
-                        { label: '投稿分析', value: 'anlysContrib' }
+                        { label: 'VCard', value: 'vCard/' }
                     ]
                 },
                 {
@@ -25,6 +39,7 @@
                     ]
                 }
             ]"
+            @select="onMenuSelect"
         />
     </header>
 </template>

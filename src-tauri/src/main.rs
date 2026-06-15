@@ -3,6 +3,9 @@
 
 use serde_json::Value;
 
+mod commands;
+mod wiki;
+
 #[tauri::command]
 fn greet(name: String) -> String {
     format!("こんにちは、{}さん！", name)
@@ -39,6 +42,7 @@ async fn recent_changes() -> Result<Value, String> {
 fn main() {
     tauri::Builder::default()
         .invoke_handler(tauri::generate_handler![
+            commands::users::get_users,
             greet,
             recent_changes
         ])
